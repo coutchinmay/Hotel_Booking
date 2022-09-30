@@ -32,7 +32,6 @@ private DrawerLayout drawer;
         setSupportActionBar(toolbar);
 
         TextView textView = (TextView)toolbar.findViewById(R.id.toolbarTextView);
-        textView.setText("HELLO");
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
@@ -89,9 +88,9 @@ private DrawerLayout drawer;
     protected void onStart() {
         super.onStart();
         FirebaseUser user = mAuth.getCurrentUser();
-        if (user == null){
-            startActivity(new Intent(MainActivity.this, LoginActivity.class));
-        }
+//        if (user == null){
+//            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+//        }
     }
 
     public void onBackPressed() {

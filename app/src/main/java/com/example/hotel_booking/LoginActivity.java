@@ -29,6 +29,7 @@ public class LoginActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseFirestore fStore;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,11 +39,13 @@ public class LoginActivity extends AppCompatActivity {
         etLoginPassword = findViewById(R.id.etLoginPass);
         tvRegisterHere = findViewById(R.id.tvRegisterHere);
         btnLogin = findViewById(R.id.btnLogin);
-        etLoginEmail.setText("chinmayteni@gmail.com");
-        etLoginPassword.setText("qwertyuiop");
+//        etLoginEmail.setText("chinmayteni@gmai/l.com");
+//        etLoginPassword.setText("qwertyuiop");
 
         mAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
+
+
 
         btnLogin.setOnClickListener(view -> {
             loginUser();
@@ -55,6 +58,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void checkUserProfile(){
+
+
+
         DocumentReference docRef = fStore.collection("users").document(mAuth.getCurrentUser().getUid());
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
 
@@ -65,7 +71,10 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (documentSnapshot.exists()) {
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                }else {
+                    startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
                 }
+                finish();
             }
         });
 
@@ -75,7 +84,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         if(mAuth.getCurrentUser() != null){
-            checkUserProfile();
+            Toast.makeText(this, mAuth.getCurrentUser().getUid(), Toast.LENGTH_SHORT).show();
+//            checkUserProfile();
         }
     }
 
@@ -95,8 +105,9 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()){
-                        Toast.makeText(LoginActivity.this, "User logged in successfully", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+//                        Toast.makeText(LoginActivity.this, "User logged in successfully", Toast.LENGTH_SHORT).show();
+//                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        checkUserProfile();
                     }else{
                         Toast.makeText(LoginActivity.this, "Log in Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }

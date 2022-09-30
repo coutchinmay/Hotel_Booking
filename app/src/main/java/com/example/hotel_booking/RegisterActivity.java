@@ -28,6 +28,8 @@ import java.util.Objects;
 
 public class RegisterActivity extends AppCompatActivity {
 
+    TextInputEditText etRegName;
+    TextInputEditText etRegNumber;
     TextInputEditText etRegEmail;
     TextInputEditText etRegPassword;
     TextView tvLoginHere;
@@ -35,13 +37,16 @@ public class RegisterActivity extends AppCompatActivity {
     String userID;
     FirebaseAuth mAuth;
     FirebaseFirestore fStore;
-    CollectionReference docRef;
+    DocumentReference docRef;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        etRegName = findViewById(R.id.etRegName);
+        etRegNumber = findViewById(R.id.etRegNumber);
         etRegEmail = findViewById(R.id.etRegEmail);
         etRegPassword = findViewById(R.id.etRegPass);
         tvLoginHere = findViewById(R.id.tvLoginHere);
@@ -50,7 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
 //        userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
-        docRef = fStore.collection("users");
+        docRef = fStore.collection("users").document();
         btnRegister.setOnClickListener(view ->{
             createUser();
         });
@@ -61,9 +66,19 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void createUser(){
+        String name = etRegName.getText().toString();
+        String number = etRegNumber.getText().toString();
         String email = etRegEmail.getText().toString();
         String password = etRegPassword.getText().toString();
 
+        if (TextUtils.isEmpty(name)){
+            etRegName.setError("Name Required");
+            etRegName.requestFocus();
+        }
+        if (TextUtils.isEmpty(number)){
+            etRegNumber.setError("Number Required");
+            etRegNumber.requestFocus();
+        }
         if (TextUtils.isEmpty(email)){
             etRegEmail.setError("Email cannot be empty");
             etRegEmail.requestFocus();
@@ -72,34 +87,45 @@ public class RegisterActivity extends AppCompatActivity {
             etRegPassword.requestFocus();
         }else {
             Map<String, Object> user = new HashMap<>();
+            user.put("name", name);
+            user.put("number", number);
             user.put("email", email);
             user.put("password", password);
-            fStore.collection("users")
-                    .add(user)
-                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                        @Override
-                        public void onSuccess(DocumentReference documentReference) {
-                            Toast.makeText(RegisterActivity.this, "DocumentSnapshot added with ID: " + documentReference.getId(), Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(RegisterActivity.this, "Error adding document" +e, Toast.LENGTH_SHORT).show();
-                        }
-                    });
+            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            fStore.collection("user").document(uid).set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        finish();
+                    }
+                }
+            });
 //            docRef.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-//                @Override
-//                public void onComplete(@NonNull Task<Void> task) {
-//                    if (task.isSuccessful()) {
-//                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-//                        finish();
+//                                                       @Override
+//                                                       public void onComplete(@NonNull Task<Void> task) {
+//                                                           if (task.isSuccessful()) {
+//                                                               startActivity(new Intent(getApplicationContext(), MainActivity.class));
+//                                                               finish();
+//                                                           }
 //
-//                    } else {
-//                        Toast.makeText(RegisterActivity.this, "Internal Error", Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//            });
+//                                                       }
+//                                                   });
+        //            fStore.collection("users")
+
+//                    .add(user)
+//                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//                        @Override
+//                        public void onSuccess(DocumentReference documentReference) {
+//                            Toast.makeText(RegisterActivity.this, "DocumentSnapshot added with ID: " + documentReference.getId(), Toast.LENGTH_SHORT).show();
+//                        }
+//                    })
+//                    .addOnFailureListener(new OnFailureListener() {
+//                        @Override
+//                        public void onFailure(@NonNull Exception e) {
+//                            Toast.makeText(RegisterActivity.this, "Error adding document" +e, Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
             mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
