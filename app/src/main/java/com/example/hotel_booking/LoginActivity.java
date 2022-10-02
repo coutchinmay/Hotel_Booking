@@ -72,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (documentSnapshot.exists()) {
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 }else {
-                    startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
+                    startActivity(new Intent(getApplicationContext(), AdditionalInfo.class));
                 }
                 finish();
             }
@@ -85,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
         if(mAuth.getCurrentUser() != null){
             Toast.makeText(this, mAuth.getCurrentUser().getUid(), Toast.LENGTH_SHORT).show();
-//            checkUserProfile();
+            checkUserProfile();
         }
     }
 

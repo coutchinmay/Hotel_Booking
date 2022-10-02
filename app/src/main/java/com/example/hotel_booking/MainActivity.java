@@ -3,7 +3,9 @@ package com.example.hotel_booking;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -51,6 +53,11 @@ private DrawerLayout drawer;
         }
 
         mAuth = FirebaseAuth.getInstance();
+
+        String email = mAuth.getCurrentUser().getEmail();
+        View nav_header = LayoutInflater.from(this).inflate(R.layout.nav_header, null);
+        ((TextView) nav_header.findViewById(R.id.heading)).setText(email);
+        navigationView.addHeaderView(nav_header);
 
 
     }
