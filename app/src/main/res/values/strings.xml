@@ -3,5 +3,12 @@
     <string name="Heading">Toolbar WORKS!!</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="autocompetetextview">AutoCompeteTextView</string>
+
+    <string-array name="cities">
+        <item>Pune</item>
+        <item>Mumbai</item>
+        <item>Nashik</item>
+    </string-array>
 
 </resources>

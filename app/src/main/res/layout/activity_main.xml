@@ -22,7 +22,8 @@
             android:layout_gravity="center"
             android:elevation="4dp"
             android:textAlignment="center"
-            app:popupTheme="@style/Theme.AppCompat.Light">
+            app:popupTheme="@style/Theme.AppCompat.Light"
+            android:background="@color/blue">
 
             <TextView
                 android:id="@+id/toolbarTextView"
