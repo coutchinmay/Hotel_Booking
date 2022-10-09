@@ -31,11 +31,11 @@ private DrawerLayout drawer;
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        setSupportActionBar(toolbar);
-
+//        setSupportActionBar(toolbar);
+//        getSuActivity().getActionBar().hide();
         TextView textView = (TextView)toolbar.findViewById(R.id.toolbarTextView);
 
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+//        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView=findViewById(R.id.nav_view);
