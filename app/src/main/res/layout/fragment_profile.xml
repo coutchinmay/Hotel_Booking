@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:textSize="15sp"
-                android:text="Name"
+                android:text="Fisrt Name"
                 android:layout_weight="1.4"
                 />
 
@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:textSize="15sp"
-                android:text="Name"
+                android:text="Last Name"
                 android:layout_weight="1.4"
                 />
 
